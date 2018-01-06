@@ -12,7 +12,8 @@ import { FirebaseApp } from 'angularfire2';
 import { Promise } from 'q';
 import { Text } from '@angular/compiler';
 
-export interface Document {name: string, description: string, author: string, content: Text};
+export interface Document {name: string, description: string, author: string, content: string, id?:string};
+
 
 
 @Injectable()
@@ -24,11 +25,26 @@ export class FirebaseService {
 
 
   constructor( private afdb: AngularFirestore) {
-    this.documentsCollection = afdb.collection<Document>('users');
-    this.document = this.documentsCollection.valueChanges();  
+    this.documentsCollection = afdb.collection<Document>('documents');
+    this.document = this.documentsCollection.snapshotChanges().map(actions =>{
+      return actions.map(a=>{
+        const data = a.payload.doc.data() as Document;
+        const id = a.payload.doc.id;
+        return {id, ...data}
+      })
+    })    
    }
 
-   
+   onCreateDocument(document: Document){
+     return this.documentsCollection.doc(document.id).set(document);
+     /* add(document); */
+   }
+
+   onUpdateDocument(document: Document){
+     let tempDocument = this.documentsCollection.doc(document.id); 
+     return tempDocument.update(document);
+     
+   }
   
 
   

@@ -15,7 +15,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateWrapComponent } from './create-wrap/create-wrap.component';
 import { DescriptionFieldsComponent } from './description-fields/description-fields.component';
-import { ContentFieldComponent } from './content-field/content-field.component'
+import { ContentFieldComponent } from './content-field/content-field.component';
+import { CreateButtonsComponent } from './create-buttons/create-buttons.component'
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ContentFieldComponent } from './content-field/content-field.component'
     NotfoundComponent,
     CreateWrapComponent,
     DescriptionFieldsComponent,
-    ContentFieldComponent
+    ContentFieldComponent,
+    CreateButtonsComponent
   ],
   imports: [
     BrowserModule,

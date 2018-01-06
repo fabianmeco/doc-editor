@@ -1,5 +1,2 @@
-<div [froalaEditor]> Testint text!</div>
-<div class="buttons" *ngIf="create" >
-    <button class="btn btn-info">Create</button>
-    <button class="btn btn-warning">Discard</button>
-</div>
+<div [froalaEditor] [(froalaModel)]="editorContent" (froalaModelChange)="onChange()" > </div>
+
