@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="row" *ngFor="let document of docList">
+    <div class="col-md-3">{{document.name}}</div>
+    <div class="col-md-2">{{document.author}}</div>
+    <div class="col-md-2">{{document.description}}</div>
+    <div class="col-md-2">{{document.createdAt}}</div>
+    <div class="col-md-2">{{document.editedAt}}</div>
+    <div class="col-md-1"><a class="btn" routerLink= "/edit/{{document.id}}" routerLinkActive="active"><i class="fa fa-pencil" aria-hidden="true"></i></a></div>
+  </div>
+</div>

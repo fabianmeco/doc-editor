@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs'
+import { ActivatedRoute, Router } from "@angular/router"
 
-import {FirebaseService} from '../firebase.service'
+import * as moment from 'moment'
+
+import { FirebaseService } from '../firebase.service'
 import { error } from 'util';
 
 @Component({
@@ -11,62 +14,87 @@ import { error } from 'util';
 })
 export class CreateWrapComponent implements OnInit {
   create: boolean;
-  document: Document = <Document> {};
-  edited :boolean = false;
+  document: Document = <Document>{};
+  edited: boolean = false;
   updatedAt: string;
 
-  constructor(public _firebaseService: FirebaseService) {
-    
-    Observable.interval(10000)
-    .takeWhile(()=>!false)
-    .subscribe(i=>{
-     if(!this.create&&this.edited){
-        this.edited=false;        
-        this._firebaseService.onUpdateDocument(this.document)
-        .then(value =>{
-          this.updatedAt = "This document was updated at ";
-        }).catch(error=> console.log(error));        
+  constructor(public _firebaseService: FirebaseService, private route: ActivatedRoute, private router: Router) {
+    this.route.params.subscribe(params => {
+      if (params['doc_id']) {
+        this.create = false;
+        this.getDocument(params.doc_id)
+          .subscribe(document => {
+            this.document = <Document>document;
+          });
+      } else {
+        this.create = true;
       }
     })
+    this.loopAutosave();
+  }
+
+  loopAutosave() {
+    Observable.interval(5000)
+      .takeWhile(() => !false)
+      .subscribe(i => {
+        if (!this.create && this.edited) {
+          this.edited = false;
+          this.document.editedAt = moment().format();
+          this._firebaseService.onUpdateDocument(this.document)
+            .then(value => {
+              this.updatedAt = "This document was updated at " + this.document.editedAt;
+            }).catch(error => console.log(error));
+        }
+      })
   }
 
   ngOnInit() {
   }
 
-  onKeyContent(content:string){
+  onKeyContent(content: string) {
     this.document.content = content;
     this.edited = true;
   }
 
-  saveName(name:string){
+  saveName(name: string) {
     this.document.name = name;
     this.edited = true;
   }
 
-  saveAuthor(author:string){
+  saveAuthor(author: string) {
     this.document.author = author;
-    this.edited= true;
+    this.edited = true;
   }
 
-  saveDescription(description:string){
+  saveDescription(description: string) {
     this.document.description = description;
     this.edited = true;
   }
 
-  onCreate(){
-    this.create=false;
-    this.edited=false;
+  onCreate() {
+    this.create = false;
+    this.edited = false;
     this.document.id = Date.now().toString();
-    this._firebaseService.onCreateDocument(this.document);
+    this.document.createdAt = moment().format();
+    this.document.editedAt = moment().format();
+    this._firebaseService.onCreateDocument(this.document).then(value => {
+      this.updatedAt = "This document was created at " + this.document.createdAt;
+    }).catch(err => console.log(err));
+  }
+
+  getDocument(id: any) {
+    return this._firebaseService.onGetDocument(id)
   }
 
 
 }
 
-interface Document{
-  id?:string;
-  name:string;
+interface Document {
+  id?: string;
+  name: string;
   author: string;
   description: string;
   content: string;
+  createdAt: string;
+  editedAt: string;
 }

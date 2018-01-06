@@ -16,7 +16,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { CreateWrapComponent } from './create-wrap/create-wrap.component';
 import { DescriptionFieldsComponent } from './description-fields/description-fields.component';
 import { ContentFieldComponent } from './content-field/content-field.component';
-import { CreateButtonsComponent } from './create-buttons/create-buttons.component'
+import { CreateButtonsComponent } from './create-buttons/create-buttons.component';
+import { ListComponent } from './list/list.component';
+import { FilterComponent } from './filter/filter.component';
+import { WelcomePageComponent } from './welcome-page/welcome-page.component'
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { CreateButtonsComponent } from './create-buttons/create-buttons.componen
     CreateWrapComponent,
     DescriptionFieldsComponent,
     ContentFieldComponent,
-    CreateButtonsComponent
+    CreateButtonsComponent,
+    ListComponent,
+    FilterComponent,
+    WelcomePageComponent
   ],
   imports: [
     BrowserModule,

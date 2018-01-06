@@ -12,7 +12,7 @@ import { FirebaseApp } from 'angularfire2';
 import { Promise } from 'q';
 import { Text } from '@angular/compiler';
 
-export interface Document {name: string, description: string, author: string, content: string, id?:string};
+export interface Document {name: string, description: string, author: string, content: string, id?:string, createdAt: string, editedAt: string};
 
 
 
@@ -36,14 +36,21 @@ export class FirebaseService {
    }
 
    onCreateDocument(document: Document){
-     return this.documentsCollection.doc(document.id).set(document);
-     /* add(document); */
+     return this.documentsCollection.doc(document.id).set(document);     
    }
 
    onUpdateDocument(document: Document){
      let tempDocument = this.documentsCollection.doc(document.id); 
      return tempDocument.update(document);
      
+   }
+
+   onGetDocument(id:string){
+     return this.documentsCollection.doc(id).valueChanges();     
+   }
+
+   onGetAllDocuments(){
+     return this.documentsCollection.valueChanges();
    }
   
 
