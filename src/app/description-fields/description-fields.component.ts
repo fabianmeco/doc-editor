@@ -1,6 +1,11 @@
-import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input,Output, EventEmitter } from '@angular/core';
+
 
 import { FirebaseService } from '../firebase.service'
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+
+import { Document } from '../../models/document.model'
 
 @Component({
   selector: 'app-description-fields',
@@ -9,7 +14,7 @@ import { FirebaseService } from '../firebase.service'
 })
 export class DescriptionFieldsComponent implements OnInit {
   @Input() create:boolean;
-  @Input() doc:Document;
+  @Input() doc: Subject<Document>;
   @Output() nameField = new EventEmitter<string>();
   @Output() authorField = new EventEmitter<string>();
   @Output() descriptionField = new EventEmitter<string>();
@@ -23,11 +28,14 @@ export class DescriptionFieldsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.create){
-      //On edit mode this shows empty doc after retrieving from firebase.
-      console.log(this.doc)
-
-    }
+    this.doc.subscribe(event=>{
+      this.author = event.author;
+      this.description = event.description;
+      this.name = event.name;
+    })
+  }  
+  ngOnDestroy(){
+    this.doc.unsubscribe();
   }
 
   saveName(){
@@ -44,10 +52,4 @@ export class DescriptionFieldsComponent implements OnInit {
 
 }
 
-interface Document {
-  id?: string;
-  name: string;
-  author: string;
-  description: string;
-  content: string;
-}
+

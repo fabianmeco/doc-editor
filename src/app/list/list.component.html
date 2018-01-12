@@ -1,6 +1,18 @@
 <div class="container">
-  <div class="row" *ngFor="let document of docList">
-    <div class="col-md-3">{{document.name}}</div>
+  <div class="row">
+    <div class="col-md-3">Name</div>
+    <div class="col-md-2">Author</div>
+    <div class="col-md-2">Description</div>
+    <div class="col-md-2"><i *ngIf="!ascendentCreation" class="fa fa-sort-asc" aria-hidden="true" (click)="sortCreation()" ></i>
+      <i *ngIf="ascendentCreation" class="fa fa-sort-desc" aria-hidden="true" (click)="sortCreation()" ></i> Creation date 
+    </div>
+    <div class="col-md-2"><i *ngIf="!ascendentEdited" class="fa fa-sort-asc" aria-hidden="true" (click)="sortLastUpdate()"></i>
+      <i *ngIf="ascendentEdited" class="fa fa-sort-desc" aria-hidden="true" (click)="sortLastUpdate()"></i> Last update 
+    </div>
+    <div class="col-md-1">Edit</div>
+  </div>
+  <div class="row" *ngFor="let document of docList | filter:search">
+    <div class="col-md-3 ">{{document.name}}</div>
     <div class="col-md-2">{{document.author}}</div>
     <div class="col-md-2">{{document.description}}</div>
     <div class="col-md-2">{{document.createdAt}}</div>

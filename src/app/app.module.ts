@@ -19,7 +19,9 @@ import { ContentFieldComponent } from './content-field/content-field.component';
 import { CreateButtonsComponent } from './create-buttons/create-buttons.component';
 import { ListComponent } from './list/list.component';
 import { FilterComponent } from './filter/filter.component';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component'
+import { WelcomePageComponent } from './welcome-page/welcome-page.component';
+import { FilterPipe } from './filter.pipe';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component'
     CreateButtonsComponent,
     ListComponent,
     FilterComponent,
-    WelcomePageComponent
+    WelcomePageComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

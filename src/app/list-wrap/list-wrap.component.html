@@ -1,4 +1,4 @@
 <div class="container-list">
-  <app-filter></app-filter>
-  <app-list></app-list>
+  <app-filter (searchOutput)="search($event)"></app-filter>
+  <app-list [searchField] = "searchField"></app-list>
 </div>
